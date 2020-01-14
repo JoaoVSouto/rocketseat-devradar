@@ -1,3 +1,5 @@
 lrngSrc
 
 node_modules
+
+.env
