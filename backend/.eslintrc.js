@@ -18,6 +18,7 @@ module.exports = {
   },
   rules: {
     'prettier/prettier': 'error',
-    'no-console': 'off'
+    'no-console': 'off',
+    camelcase: 'off'
   },
 };
