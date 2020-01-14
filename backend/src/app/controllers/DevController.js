@@ -6,6 +6,14 @@ class DevController {
   async store(req, res) {
     const { github_username, techs, latitude, longitude } = req.body;
 
+    const devExists = await Dev.findOne({ github_username });
+
+    if (devExists) {
+      return res
+        .status(400)
+        .json({ error: 'Github username is already been used.' });
+    }
+
     const response = await axios.get(
       `https://api.github.com/users/${github_username}`
     );
