@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet } from 'react-native';
-import MapView from 'react-native-maps';
+import { StyleSheet, Image, View, Text } from 'react-native';
+import MapView, { Marker, Callout } from 'react-native-maps';
 import {
   requestPermissionsAsync,
   getCurrentPositionAsync,
@@ -34,12 +34,60 @@ function Main() {
     return null;
   }
 
-  return <MapView initialRegion={currentRegion} style={styles.map} />;
+  return (
+    <MapView initialRegion={currentRegion} style={styles.map}>
+      <Marker coordinate={{ latitude: -5.8811449, longitude: -35.2075492 }}>
+        <Image
+          style={styles.avatar}
+          source={{
+            uri: 'https://avatars1.githubusercontent.com/u/42191629?s=150&v=4',
+          }}
+        />
+
+        <Callout>
+          <View style={styles.callout}>
+            <Text style={styles.devName}>João Vítor</Text>
+            <Text style={styles.devBio}>
+              Student undergraduate of Information Technology at UFRN. I just
+              wanna code in peace.
+            </Text>
+            <Text style={styles.devTechs}>ReactJS, React Native, Node.js</Text>
+          </View>
+        </Callout>
+      </Marker>
+    </MapView>
+  );
 }
 
 const styles = StyleSheet.create({
   map: {
     flex: 1,
+  },
+
+  avatar: {
+    width: 54,
+    height: 54,
+    borderRadius: 4,
+    borderWidth: 4,
+    borderColor: '#fff',
+  },
+
+  callout: {
+    width: 260,
+  },
+
+  devName: {
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
+
+  devBio: {
+    color: '#666',
+    marginTop: 5,
+  },
+
+  devTechs: {
+    marginTop: 5,
   },
 });
 
