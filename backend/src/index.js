@@ -1,6 +1,7 @@
 import dotenv from 'dotenv';
 import express from 'express';
 import mongoose from 'mongoose';
+import cors from 'cors';
 
 import routes from './routes';
 
@@ -15,6 +16,7 @@ mongoose
   .then(() => console.log('Connected to database!'))
   .catch(err => console.error('Error in connecting to database', err));
 
+server.use(cors());
 server.use(express.json());
 server.use(routes);
 
