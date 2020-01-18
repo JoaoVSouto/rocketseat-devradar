@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   StyleSheet,
   Image,
@@ -6,6 +6,7 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
+  Keyboard,
 } from 'react-native';
 import MapView, { Marker, Callout } from 'react-native-maps';
 import {
@@ -16,6 +17,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 
 function Main({ navigation }) {
   const [currentRegion, setCurrentRegion] = useState(null);
+  const formRef = useRef(null);
 
   useEffect(() => {
     (async () => {
@@ -36,6 +38,18 @@ function Main({ navigation }) {
         });
       }
     })();
+  }, []);
+
+  useEffect(() => {
+    Keyboard.addListener('keyboardDidShow', keyboardInfo => {
+      formRef.current.setNativeProps({
+        bottom: keyboardInfo.endCoordinates.height + 20,
+      });
+    });
+
+    Keyboard.addListener('keyboardDidHide', keyboardInfo => {
+      formRef.current.setNativeProps({ bottom: 20 });
+    });
   }, []);
 
   if (!currentRegion) {
@@ -72,7 +86,7 @@ function Main({ navigation }) {
           </Callout>
         </Marker>
       </MapView>
-      <View style={styles.searchForm}>
+      <View style={styles.searchForm} ref={formRef}>
         <TextInput
           style={styles.searchInput}
           placeholder="Buscar devs por techs..."
