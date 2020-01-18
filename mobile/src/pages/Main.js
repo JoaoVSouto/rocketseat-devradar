@@ -69,6 +69,8 @@ function Main({ navigation }) {
     });
 
     setDevs(response.data);
+    setTechs('');
+    Keyboard.dismiss();
   };
 
   const handleRegionChanged = region => setCurrentRegion(region);
