@@ -15,6 +15,7 @@ import {
 } from 'expo-location';
 import { MaterialIcons } from '@expo/vector-icons';
 
+import { connect, disconnect, subscribeToNewDevs } from '../services/socket';
 import api from '../services/api';
 
 function Main({ navigation }) {
@@ -57,6 +58,18 @@ function Main({ navigation }) {
     });
   }, []);
 
+  useEffect(() => {
+    subscribeToNewDevs(dev => setDevs([...devs, dev]));
+  }, [devs]);
+
+  const setUpWebSocket = () => {
+    disconnect();
+
+    const { latitude, longitude } = currentRegion;
+
+    connect(latitude, longitude, techs);
+  };
+
   const loadDevs = async () => {
     const { latitude, longitude } = currentRegion;
 
@@ -71,6 +84,8 @@ function Main({ navigation }) {
     setDevs(response.data);
     setTechs('');
     Keyboard.dismiss();
+
+    setUpWebSocket();
   };
 
   const handleRegionChanged = region => setCurrentRegion(region);
